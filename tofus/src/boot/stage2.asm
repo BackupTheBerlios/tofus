@@ -40,19 +40,19 @@ GDT_END:
 ; ---Procedure varie------------------------------------------------------------
 
 wkc:
-; Attende finché la tastiera è libera
+; Attende finchï¿½la tastiera ï¿½libera
 	xor	al,al
 	in	al, 0x64		; legge lo stato
-	test	al, 2			; il bit 1 è a 0?
-	jnz 	wkc			; se non è a 0 cicla
+	test	al, 2			; il bit 1 ï¿½a 0?
+	jnz 	wkc			; se non ï¿½a 0 cicla
 	ret
 
 wkf:
-; Attende finché la tastiera è occupata
+; Attende finchï¿½la tastiera ï¿½occupata
 	xor	cx,cx
 	in	al, 0x64		; legge lo stato
-	test	al, 1			; il bit 0 è a 0?
-	jz	wkf			; se non è a 0 cicla
+	test	al, 1			; il bit 0 ï¿½a 0?
+	jz	wkf			; se non ï¿½a 0 cicla
 	ret
 
 kill_motor:
@@ -63,7 +63,7 @@ kill_motor:
 	ret
 
 print:
-; Stampa una stringa in modalità TeleType
+; Stampa una stringa in modalita' TeleType
 ;  Input: DS:SI punta al primo carattere della stringa. L'ultimo carattere
 ;         dev'essere 0x00
 ; Output: La stringa a video
@@ -298,7 +298,7 @@ init:
 	call	newline
 
 a20:
-; Abilitiamo il gate A20 per poter accedere a più di un mega di RAM.
+; Abilitiamo il gate A20 per poter accedere a pi di un mega di RAM.
 	mov	si, A20msg
 	call	print
 	cli
@@ -321,7 +321,7 @@ kbdwait:
 	out	0x64, al
 	call	wkf		; aspettiamo che il dato arrivi
 	in	al, 0x60	; e poi prendiamolo
-	test	al, 2		; controlliamo se l'A20 è aperto
+	test	al, 2		; controlliamo se l'A20 ï¿½aperto
 	jnz	a20_ok
 	mov	si, FAIL
 	call	print
@@ -513,12 +513,15 @@ gdtciclo:
 	mov	cr0, eax		; ta-daaah!
 
 ; Puliamo un po' di registri: cs, ip ed eip
-	jmp	CODESEL:FLUSH		; settiamo il cs al selettore del codice
+	jmp	FLUSH		; settiamo il cs al selettore del codice
 
-[bits 32]	; 32 bit! Sempre più difficile!
+[bits 32]	; 32 bit! Sempre piu' difficile!
 FLUSH:
-	jmp	$
 ; risistemiamo tutti i registri di segmento
+	mov	byte [0xb8000], 'P'
+	mov	byte [0xb8001], 0x1e
+	jmp	$
+
 	mov	eax, DATASEL
 	mov	ds,eax
 	mov	es,eax
