@@ -1,0 +1,20 @@
+~[ tOfuS: musicians' operating system ]~
+
+V done
++ currently in development
+- pending
+? is this really necessary?
+
+for 0.0.0:
+V bootloader stage 1
++ bootloader stage 2
+- kernel
+  - memory management
+  - small BIOS
+    - port i/o
+    - video output
+    - keyboard input
+  - minimal built-in shell
+
+general wishlist:
+? bootable installer
